@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "canal-project"
+version = "0.1.0"
+description = ""
+authors = ["Al-Gon <72076666+Al-Gon@users.noreply.github.com>"]
+readme = "README.md"
+packages = [{include = "canal_project"}]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+django = "3.2.18"
+djangorestframework = "3.14.0"
+django-cors-headers = "3.14.0"
+django-extensions = "3.2.1"
+google-api-python-client = "^2.81.0"
+oauthlib = "^3.2.2"
+oauth2client = "^4.1.3"
+apiclient = "^1.0.4"
+pytz = "^2022.7.1"
+psycopg2 = "2.9.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
