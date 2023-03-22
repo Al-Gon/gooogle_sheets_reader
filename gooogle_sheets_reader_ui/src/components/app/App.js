@@ -1,13 +1,20 @@
 import './App.css';
-import {Fragment} from "react";
+import {Fragment, useState} from "react";
 import Header from "../header/Header";
-import Home from "../home/Home";
+import TopPanel from "../toppanel/TopPanel";
+import Content from "../content/Content";
+
 
 function App() {
+    const [toggle, setToggle] = useState(false)
+    const uploader = () => {
+        setToggle(!toggle)
+    }
     return (
         <Fragment>
             <Header/>
-            <Home/>
+            <TopPanel toggle={toggle} upLoader={uploader}/>
+            <Content toggle={toggle}/>
         </Fragment>
     );
 }

@@ -95,12 +95,12 @@ def update_sheet_rows():
 
     sheet_rows = Sheet.objects.all().values_list('pos_index', 'order', 'price_usd', 'price_rub', 'delivery_date')
 
-    while True:
+    service = get_service(api_name='sheets',
+                          api_version='v4',
+                          scopes=SCOPES,
+                          key_file_location=CREDENTIALS_FILE)
 
-        service = get_service(api_name='sheets',
-                              api_version='v4',
-                              scopes=SCOPES,
-                              key_file_location=CREDENTIALS_FILE)
+    while True:
 
         new_sheet_rows = get_sheet_rows(service_obj=service,
                                         spreadsheet_id=SPREADSHEET_ID,
@@ -143,11 +143,13 @@ def update_sheet_rows():
                         price_rub=price_rub,
                         delivery_date=delivery_date
                     )
+
+
                 except IntegrityError:
                     print(f'Повторяющееся значение поля pos_index={pos_index}')
 
 
-        if new_sheet_rows:
+        if new_rows:
             for row in new_rows:
                 pos_index, order, price_usd, price_rub, delivery_date = row
                 try:
@@ -173,9 +175,14 @@ def update_sheet_rows():
                 ).delete()
 
         sheet_rows = new_sheet_rows
-        time.sleep(3000)
+        time.sleep(5)
 
 
-def run_thread():
-    thread = threading.Thread(target=update_sheet_rows)
-    thread.start()
+def run_upload():
+    """Starts a thread to update the database table.
+    """
+
+    if not THREADS or not THREADS[0].is_alive():
+        thread = threading.Thread(target=update_sheet_rows)
+        THREADS.append(thread)
+        THREADS[0].start()

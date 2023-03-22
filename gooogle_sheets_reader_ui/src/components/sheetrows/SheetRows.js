@@ -1,7 +1,7 @@
 import {Table} from "reactstrap";
 
 const SheetRows = (props) => {
-    const {sheetrows} = props
+    const {sheet_rows} = props
     return (
         <Table light>
             <thead>
@@ -14,19 +14,19 @@ const SheetRows = (props) => {
             </tr>
             </thead>
             <tbody>
-            {!sheetrows || sheetrows.length <= 0 ? (
+            {!sheet_rows || sheet_rows.length <= 0 ? (
                 <tr>
                     <td colSpan="6" align="center">
-                        <b>Пока ничего нет</b>
+                        <b>Пока в таблице ничего нет</b>
                     </td>
                 </tr>
-            ) : sheetrows.map(sheetrow => (
-                        <tr key={sheetrow.pk}>
-                            <td>{sheetrow.pos_index}</td>
-                            <td>{sheetrow.order}</td>
-                            <td>{sheetrow.price_usd}</td>
-                            <td>{sheetrow.price_rub}</td>
-                            <td>{sheetrow.format_delivery_date}</td>
+            ) : sheet_rows.map(sheet_row => (
+                        <tr key={sheet_row.pk}>
+                            <td>{sheet_row.pos_index}</td>
+                            <td>{sheet_row.order}</td>
+                            <td>{sheet_row.price_usd}</td>
+                            <td>{sheet_row.price_rub}</td>
+                            <td>{sheet_row.format_delivery_date}</td>
                         </tr>
                 )
             )}
