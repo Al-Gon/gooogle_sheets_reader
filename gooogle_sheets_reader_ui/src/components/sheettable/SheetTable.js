@@ -2,7 +2,7 @@ import {Row, Col} from "reactstrap";
 import SheetRows from "../sheetrows/SheetRows";
 import axios from "axios";
 import {useEffect, useState} from "react";
-import {API_URL} from "../../index";
+import {API_URL_1} from "../../index";
 
 const SheetTable = () => {
     const [sheet_rows, setSheetRows] = useState([])
@@ -16,7 +16,7 @@ const SheetTable = () => {
     },[value])
 
     const getSheetRows = ()=>{
-        axios.get(API_URL).then(data => setSheetRows(data.data))
+        axios.get(API_URL_1).then(data => setSheetRows(data.data))
     }
 
     return (

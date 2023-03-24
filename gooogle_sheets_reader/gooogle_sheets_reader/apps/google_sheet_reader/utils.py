@@ -88,9 +88,10 @@ def prepare_rows_values(sheet_rows):
     return sheet_rows
 
 
-def update_sheet_rows():
+def update_sheet_rows(stop_event):
     """Updates the values in the database table.
     Here it is assumed that the 'pos_index'(item number in google sheet) must be unique.
+    stop_event - instance of threading.Event class
     """
 
     sheet_rows = Sheet.objects.all().values_list('pos_index', 'order', 'price_usd', 'price_rub', 'delivery_date')
@@ -100,7 +101,7 @@ def update_sheet_rows():
                           scopes=SCOPES,
                           key_file_location=CREDENTIALS_FILE)
 
-    while True:
+    while not stop_event.is_set():
 
         new_sheet_rows = get_sheet_rows(service_obj=service,
                                         spreadsheet_id=SPREADSHEET_ID,
@@ -178,11 +179,25 @@ def update_sheet_rows():
         time.sleep(5)
 
 
-def run_upload():
+
+
+def run_upload(event):
     """Starts a thread to update the database table.
     """
 
     if not THREADS or not THREADS[0].is_alive():
-        thread = threading.Thread(target=update_sheet_rows)
+        thread = threading.Thread(target=update_sheet_rows, args=(event,))
         THREADS.append(thread)
         THREADS[0].start()
+
+def create_event():
+    stop_event = threading.Event()
+    EVENTS.append(stop_event)
+    return EVENTS[0]
+
+def set_stop_event():
+    if EVENTS:
+        stop_event = EVENTS.pop()
+        while THREADS[0].is_alive():
+            stop_event.set()
+        THREADS.pop()

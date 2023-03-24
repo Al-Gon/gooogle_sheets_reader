@@ -9,6 +9,11 @@ app_name = 'google_sheet_reader'
 
 # google_sheet_reader/urls.py
 urlpatterns = [
+    # /api/sync/
+    re_path(
+            route=r'^api/sync/$',
+            view=views.sync_toggle,
+    ),
 
     # /api/sheet/
     re_path(

@@ -12,3 +12,5 @@ SPREADSHEET_ID = '1sFfk8wkHtjta95wcmesRZ5_7mdkUs1g4yCTB--Hsh8Y'
 RANGES = ["Лист1!A2:DZ"]
 
 THREADS = []
+
+EVENTS = []
